@@ -1,10 +1,9 @@
 import axios from 'axios';
 
 const API = axios.create({
-  baseURL: 'https://kids-store-backend.onrender.com/api', // ✅ LIVE backend URL
-  withCredentials: true,
+  baseURL: import.meta.env.VITE_API_BASE_URL,
+  withCredentials: true, // If using cookies or auth tokens
 });
-
 
 API.interceptors.request.use((config) => {
   const token = localStorage.getItem('token');
@@ -14,4 +13,4 @@ API.interceptors.request.use((config) => {
   return config;
 });
 
-export default API; // ✅ this line is REQUIRED
+export default API;
