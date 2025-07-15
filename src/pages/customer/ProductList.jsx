@@ -2,7 +2,8 @@ import React, { useEffect } from "react";
 import { useParams, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts } from "../../redux/slices/productSlice";
-import ProductCard from "../../components/productCard";
+import ProductCard from "../../components/ProductCard"; 
+
 
 import MainLayout from "../../layouts/MainLayout";
 
