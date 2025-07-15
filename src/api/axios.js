@@ -1,9 +1,10 @@
 import axios from 'axios';
 
 const API = axios.create({
-  baseURL: 'http://localhost:3001/api',
-  withCredentials: true, // 🔐 enables sending cookies
+  baseURL: 'https://kids-store-backend.onrender.com/api', // ✅ LIVE backend URL
+  withCredentials: true,
 });
+
 
 API.interceptors.request.use((config) => {
   const token = localStorage.getItem('token');
