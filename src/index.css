@@ -1,0 +1,13 @@
+@import 'flowbite/dist/flowbite.css';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* index.css */
+/* index.css */
+
+
+html {
+  scroll-padding-top: 100px; /* adjust if your header height is different */
+}
+
