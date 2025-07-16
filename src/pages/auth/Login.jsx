@@ -6,7 +6,7 @@ import { setUser } from '../../redux/slices/userSlice';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { FaUserPlus } from 'react-icons/fa';
-
+import { Link } from 'react-router-dom';
 const Login = () => {
   const [form, setForm] = useState({ email: '', password: '' });
   const [success] = useState('');
