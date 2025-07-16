@@ -1,16 +1,22 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import MainLayout from '../../layouts/MainLayout';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Autoplay } from 'swiper/modules';
-import 'swiper/css';
-import 'swiper/css/navigation';
+import 'flowbite';
+import { Heart, ShoppingCart, ChevronLeft, ChevronRight } from 'lucide-react';
 
 const Home = () => {
   const navigate = useNavigate();
   const user = useSelector((state) => state.user.currentUser);
+
+  useEffect(() => {
+    const initializeCarousel = async () => {
+      const { Carousel } = await import('flowbite');
+      const carousels = document.querySelectorAll('[data-carousel="slide"]');
+      carousels.forEach((el) => new Carousel(el));
+    };
+    initializeCarousel();
+  }, []);
 
   const handleAddToBag = (product) => {
     if (!user) {
@@ -30,39 +36,55 @@ const Home = () => {
 
   return (
     <MainLayout>
-      {/* Carousel Section (Swiper.js) */}
-      <div className="w-full max-w-7xl mx-auto mt-4">
-        <Swiper
-          modules={[Navigation, Autoplay]}
-          navigation
-          autoplay={{ delay: 3000 }}
-          loop={true}
-          spaceBetween={30}
-          slidesPerView={1}
-          className="rounded-lg overflow-hidden"
-        >
-          <SwiperSlide>
-            <img
-              src="https://res.cloudinary.com/devsa5tma/image/upload/v1751486420/Popees_-_Web_Banner_2_1_hc3kbg.png"
-              alt="Slide 1"
-              className="w-full h-[250px] md:h-[380px] object-cover"
-            />
-          </SwiperSlide>
-          <SwiperSlide>
-            <img
-              src="https://res.cloudinary.com/devsa5tma/image/upload/v1751485415/Popees_-_Web_Banner_3_1_ywqsct.png"
-              alt="Slide 2"
-              className="w-full h-[250px] md:h-[380px] object-cover"
-            />
-          </SwiperSlide>
-          <SwiperSlide>
-            <img
-              src="https://res.cloudinary.com/devsa5tma/image/upload/v1751489186/car1_zpnrgw.jpg"
-              alt="Slide 3"
-              className="w-full h-[250px] md:h-[380px] object-cover"
-            />
-          </SwiperSlide>
-        </Swiper>
+      {/* Carousel Section */}
+      <div className="flex flex-col items-center w-full mt-2 min-h-[24rem]">
+        <div id="controls-carousel" className="relative w-full" data-carousel="slide">
+          <div className="relative h-[250px] md:h-96 overflow-hidden">
+            <div className="hidden duration-700 ease-in-out" data-carousel-item="active">
+              <img
+                src="https://res.cloudinary.com/devsa5tma/image/upload/v1751486420/Popees_-_Web_Banner_2_1_hc3kbg.png"
+                className="w-full h-full object-cover"
+                alt="Slide 1"
+              />
+            </div>
+            <div className="hidden duration-700 ease-in-out" data-carousel-item>
+              <img
+                src="https://res.cloudinary.com/devsa5tma/image/upload/v1751485415/Popees_-_Web_Banner_3_1_ywqsct.png"
+                className="w-full h-full object-cover"
+                alt="Slide 2"
+              />
+            </div>
+            <div className="hidden duration-700 ease-in-out" data-carousel-item>
+              <img
+                src="https://res.cloudinary.com/devsa5tma/image/upload/v1751489186/car1_zpnrgw.jpg"
+                className="w-full h-full object-cover"
+                alt="Slide 3"
+              />
+            </div>
+          </div>
+
+          {/* Navigation Buttons */}
+          <button
+            type="button"
+            className="absolute top-0 left-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
+            data-carousel-prev
+          >
+            <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 hover:bg-white/50 group-focus:ring-4 group-focus:ring-white">
+              <ChevronLeft className="w-4 h-4 text-white" />
+              <span className="sr-only">Previous</span>
+            </span>
+          </button>
+          <button
+            type="button"
+            className="absolute top-0 right-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
+            data-carousel-next
+          >
+            <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 hover:bg-white/50 group-focus:ring-4 group-focus:ring-white">
+              <ChevronRight className="w-4 h-4 text-white" />
+              <span className="sr-only">Next</span>
+            </span>
+          </button>
+        </div>
       </div>
 
       {/* Trending Section */}
@@ -83,13 +105,13 @@ const Home = () => {
                   onClick={() => handleAddToWishlist({ image: url })}
                   className="bg-white rounded-full p-2 mb-2 shadow hover:bg-pink-100 text-gray-700"
                 >
-                  ❤️
+                  <Heart className="w-5 h-5" />
                 </button>
                 <button
                   onClick={() => handleAddToBag({ image: url })}
                   className="bg-white rounded-full p-2 shadow hover:bg-green-100 text-gray-700"
                 >
-                  🛒
+                  <ShoppingCart className="w-5 h-5" />
                 </button>
               </div>
             </div>
