@@ -1,33 +1,22 @@
+import React from 'react';
 import MainLayout from '../../layouts/MainLayout';
-import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import 'flowbite';
+
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation, Autoplay } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/navigation';
 
 const Home = () => {
   const navigate = useNavigate();
   const user = useSelector((state) => state.user.currentUser);
-
-  useEffect(() => {
-  // Wait for DOM to be ready, then initialize Flowbite carousel
-  const initializeCarousel = async () => {
-    const { Carousel } = await import('flowbite');
-    const carousels = document.querySelectorAll('[data-carousel="slide"]');
-    carousels.forEach((el) => {
-      new Carousel(el);
-    });
-  };
-
-  initializeCarousel();
-}, []);
-
 
   const handleAddToBag = (product) => {
     if (!user) {
       navigate('/login');
     } else {
       console.log("🛍️ Added to bag:", product);
-      // dispatch(addToCart(product)) if needed
     }
   };
 
@@ -36,65 +25,44 @@ const Home = () => {
       navigate('/login');
     } else {
       console.log("❤️ Added to wishlist:", product);
-      // dispatch(addToWishlist(product)) if needed
     }
   };
 
   return (
     <MainLayout>
-      {/* Carousel Section */}
-      <div className="flex flex-col items-center w-full mt-2 min-h-[24rem]">
-        <div id="controls-carousel" className="relative w-full" data-carousel="slide">
-          <div className="relative h-[250px] md:h-96 overflow-hidden">
-            <div className="hidden duration-700 ease-in-out" data-carousel-item="active">
-              <img
-                src="https://res.cloudinary.com/devsa5tma/image/upload/v1751486420/Popees_-_Web_Banner_2_1_hc3kbg.png"
-                className="w-full h-full object-cover"
-                alt="Slide 1"
-              />
-            </div>
-            <div className="hidden duration-700 ease-in-out" data-carousel-item>
-              <img
-                src="https://res.cloudinary.com/devsa5tma/image/upload/v1751485415/Popees_-_Web_Banner_3_1_ywqsct.png"
-                className="w-full h-full object-cover"
-                alt="Slide 2"
-              />
-            </div>
-            <div className="hidden duration-700 ease-in-out" data-carousel-item>
-              <img
-                src="https://res.cloudinary.com/devsa5tma/image/upload/v1751489186/car1_zpnrgw.jpg"
-                className="w-full h-full object-cover"
-                alt="Slide 3"
-              />
-            </div>
-          </div>
-
-          {/* Navigation Buttons */}
-          <button
-            type="button"
-            className="absolute top-0 left-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
-            data-carousel-prev
-          >
-            <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 hover:bg-white/50 group-focus:ring-4 group-focus:ring-white">
-              <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 6 10">
-                <path d="M5 1L1 5l4 4" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" />
-              </svg>
-              <span className="sr-only">Previous</span>
-            </span>
-          </button>
-          <button
-            type="button"
-            className="absolute top-0 right-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
-            data-carousel-next
-          >
-            <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 hover:bg-white/50 group-focus:ring-4 group-focus:ring-white">
-              <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 6 10">
-                <path d="M1 1l4 4-4 4" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" />
-              </svg>
-              <span className="sr-only">Next</span>
-            </span>
-          </button>
-        </div>
+      {/* Carousel Section (Swiper.js) */}
+      <div className="w-full max-w-7xl mx-auto mt-4">
+        <Swiper
+          modules={[Navigation, Autoplay]}
+          navigation
+          autoplay={{ delay: 3000 }}
+          loop={true}
+          spaceBetween={30}
+          slidesPerView={1}
+          className="rounded-lg overflow-hidden"
+        >
+          <SwiperSlide>
+            <img
+              src="https://res.cloudinary.com/devsa5tma/image/upload/v1751486420/Popees_-_Web_Banner_2_1_hc3kbg.png"
+              alt="Slide 1"
+              className="w-full h-[250px] md:h-[380px] object-cover"
+            />
+          </SwiperSlide>
+          <SwiperSlide>
+            <img
+              src="https://res.cloudinary.com/devsa5tma/image/upload/v1751485415/Popees_-_Web_Banner_3_1_ywqsct.png"
+              alt="Slide 2"
+              className="w-full h-[250px] md:h-[380px] object-cover"
+            />
+          </SwiperSlide>
+          <SwiperSlide>
+            <img
+              src="https://res.cloudinary.com/devsa5tma/image/upload/v1751489186/car1_zpnrgw.jpg"
+              alt="Slide 3"
+              className="w-full h-[250px] md:h-[380px] object-cover"
+            />
+          </SwiperSlide>
+        </Swiper>
       </div>
 
       {/* Trending Section */}
@@ -115,17 +83,13 @@ const Home = () => {
                   onClick={() => handleAddToWishlist({ image: url })}
                   className="bg-white rounded-full p-2 mb-2 shadow hover:bg-pink-100 text-gray-700"
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 8.25a5.25 5.25 0 00-9-3.82 5.25 5.25 0 00-9 3.82C3 13.05 12 20.25 12 20.25s9-7.2 9-11.99z" />
-                  </svg>
+                  ❤️
                 </button>
                 <button
                   onClick={() => handleAddToBag({ image: url })}
                   className="bg-white rounded-full p-2 shadow hover:bg-green-100 text-gray-700"
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.25 3h1.5l1.35 12.18a2.25 2.25 0 002.24 2.07h9.42a2.25 2.25 0 002.24-2.07L20.25 6H6.75M9 10.5h6" />
-                  </svg>
+                  🛒
                 </button>
               </div>
             </div>
