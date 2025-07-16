@@ -24,19 +24,19 @@ const Register = () => {
     setForm({ ...form, [fieldMap[name]]: value });
   };
 
-  const handleSubmit = async (e) => {
+ const handleSubmit = async (e) => {
   e.preventDefault();
   try {
     const res = await axios.post(
-      'http://localhost:3001/api/user/register',
+      `${import.meta.env.VITE_API_BASE_URL}/user/register`,
       form,
       {
         headers: { 'Content-Type': 'application/json' },
-        withCredentials: true
+        withCredentials: true,
       }
     );
 
-    dispatch(setUser(res.data.userData)); // ✅ Now res is defined
+    dispatch(setUser(res.data.userData));
     toast.success('Registration successful!');
     navigate('/login');
   } catch (err) {
@@ -44,6 +44,7 @@ const Register = () => {
     setMessage(err.response?.data?.error || 'Register failed');
   }
 };
+
 
   return (
     <MainLayout>
